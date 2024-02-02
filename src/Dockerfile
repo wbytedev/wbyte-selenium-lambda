@@ -5,9 +5,9 @@ RUN dnf install atk at-spi2-atk gtk3 cups-libs pango \
     libXcomposite libXcursor libXdamage libXext libXtst libXt \
     libXrandr libXScrnSaver alsa-lib jq unzip -y
 
-COPY ./chrome-installer ./chrome-installer
-RUN ./chrome-installer
-RUN rm ./chrome-installer
+COPY ./chrome-installer.sh ./chrome-installer.sh
+RUN ./chrome-installer.sh
+RUN rm ./chrome-installer.sh
 
 RUN pip install selenium
 
