@@ -2,6 +2,7 @@
 set -e
 
 if [[ -d "src" ]]; then
+    echo "Nothing to bootstrap for now.."
 fi
 
 if [[ -d "infra" ]]; then
