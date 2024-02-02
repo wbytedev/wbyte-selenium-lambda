@@ -7,8 +7,7 @@ const app = new cdk.App();
 const props = {
     name: app.node.tryGetContext("name"),
     apiKey: app.node.tryGetContext("apiKey"),
-    applicationTag: app.node.tryGetContext("applicationTag"), // Client tag here?
-    costTag: app.node.tryGetContext("CostTag"),
+    applicationTag: app.node.tryGetContext("applicationTag"), // Client tag here?    
     env: {
         account: app.node.tryGetContext("accountId"),
         region: app.node.tryGetContext("region"),
@@ -20,7 +19,6 @@ const pascalCaseFullName = fullName.split('-')
     .map((word, index) =>
         index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join('');
-
 
 new InfraStack(
     app,
