@@ -15,10 +15,19 @@ const props = {
     }
 };
 
+const fullName = `${props.applicationTag}-${props.name}`;
+const pascalCaseFullName = fullName.split('-')
+    .map((word, index) =>
+        index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join('');
+
+
 new InfraStack(
     app,
-    `${props.applicationTag}-${props.name}`,
+    pascalCaseFullName,
     {
-        ...props
+        ...props,
+        fullName: fullName,
+        pascalCaseFullName: pascalCaseFullName
     }
 );

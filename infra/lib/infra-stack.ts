@@ -4,31 +4,26 @@ import { DockerImageCode, DockerImageFunction } from 'aws-cdk-lib/aws-lambda';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
 
-export interface InfraStackProps extends StackProps {
-  name: string;
+export interface InfraStackProps extends StackProps {  
   applicationTag: string;
   apiKey: string;
+  fullName: string;
+  pascalCaseFullName: string;
 }
 
 export class InfraStack extends Stack {
   constructor(scope: Construct, id: string, props: InfraStackProps) {
     super(scope, id, props);
 
-    const fullName = `${props.applicationTag}-${props.name}`;
-    const pascalCaseFullName = fullName.split('-')
-      .map((word, index) =>
-        index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join('');
-
-    const lambdaFunction = new DockerImageFunction(this, `${pascalCaseFullName}SeleniumLambda`, {
+    const lambdaFunction = new DockerImageFunction(this, `${props.pascalCaseFullName}SeleniumLambda`, {
       code: DockerImageCode.fromImageAsset("../src"),
       timeout: Duration.seconds(10),
-      functionName: `${fullName}-function`,
+      functionName: `${props.fullName}-function`,
       memorySize: 512, // TODO: lambda power tuning
       logRetention: RetentionDays.ONE_WEEK
     });
 
-    const gateway = new LambdaRestApi(this, `${pascalCaseFullName}Gateway`, {
+    const gateway = new LambdaRestApi(this, `${props.pascalCaseFullName}Gateway`, {
       handler: lambdaFunction,
       proxy: false
     });
@@ -37,16 +32,16 @@ export class InfraStack extends Stack {
       apiKeyRequired: true
     });
 
-    const usagePlan = gateway.addUsagePlan(`${pascalCaseFullName}UsagePlan`, {
-      name: `${fullName}-usage-plan`,
+    const usagePlan = gateway.addUsagePlan(`${props.pascalCaseFullName}UsagePlan`, {
+      name: `${props.fullName}-usage-plan`,
       quota: {
         limit: 100,
         period: Period.DAY
       }
     });
 
-    const apiKey = gateway.addApiKey(`${pascalCaseFullName}ApiKey`, {
-      apiKeyName: `${fullName}-api-key`,
+    const apiKey = gateway.addApiKey(`${props.pascalCaseFullName}ApiKey`, {
+      apiKeyName: `${props.fullName}-api-key`,
       value: props.apiKey
     });
 

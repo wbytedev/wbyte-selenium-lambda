@@ -6,7 +6,8 @@ test('SQS Queue and SNS Topic Created', () => {
   const app = new cdk.App();
   // WHEN
   const stack = new Infra.InfraStack(app, 'MyTestStack', {
-    name: "test",
+    fullName: "test-test",
+    pascalCaseFullName: "TestTest",
     applicationTag: "app-tag-test",
     apiKey: "crackTheCode123"
   });
