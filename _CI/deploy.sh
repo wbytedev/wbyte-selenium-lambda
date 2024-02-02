@@ -5,13 +5,11 @@ if [[ -d "infra" ]]; then
     cd infra
 
     npm run cdk deploy -- \
+        --context name=${APPLICATION_NAME} \
         --context accountId=${AWS_ACCOUNT_ID} \
         --context region=${AWS_REGION} \
-        --context name=${NAME} \
-        --context domainName=${DOMAIN_NAME} \
+        --context apiKey=${API_KEY} \
         --context applicationTag=${APPLICATION_TAG} \
-        --context hostedZone=${HOSTED_ZONE} \
-        --context sourcePath=${SOURCE_PATH} \
         --all \
         --require-approval never
 fi

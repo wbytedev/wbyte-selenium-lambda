@@ -11,6 +11,8 @@ logger.setLevel(logging.INFO)
 def initialise_driver():
     chrome_options = ChromeOptions()
     chrome_options.add_argument('--headless')
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument('--disable-gpu')
     chrome_options.binary_location = '/opt/chrome/chrome-headless-shell-linux64/chrome-headless-shell'
 
     service = Service(
