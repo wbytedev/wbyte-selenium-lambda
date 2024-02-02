@@ -12,7 +12,7 @@ def initialise_driver():
     chrome_options = ChromeOptions()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-dev-shm-usage") # The /dev/shm partition is too small in certain VM environments, causing Chrome to fail or crash
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--disable-dev-tools")
     chrome_options.add_argument("--no-zygote")
@@ -35,7 +35,10 @@ def initialise_driver():
 
 def lambda_handler(event, context):
     logger.info("Lambda started")
-    driver = initialise_driver()
-    driver.get("https://wbyte.dev")
-    page_source = driver.page_source
-    logger.info(f"Page source: {page_source}")
+    try: 
+        driver = initialise_driver()
+        driver.get("https://wbyte.dev")
+        page_source = driver.page_source
+        logger.info(f"Page source: {page_source}")
+    except Exception as e:
+        logging.error('Error at %s', 'division', exc_info=e)
