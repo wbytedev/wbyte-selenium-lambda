@@ -12,7 +12,12 @@ def initialise_driver():
     chrome_options = ChromeOptions()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--disable-dev-tools")
+    chrome_options.add_argument("--no-zygote")
+    chrome_options.add_argument("--single-process")
+    chrome_options.add_argument("--user-data-dir=/tmp/chromium")
     chrome_options.binary_location = '/opt/chrome/chrome-headless-shell-linux64/chrome-headless-shell'
 
     service = Service(
