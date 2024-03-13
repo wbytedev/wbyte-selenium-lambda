@@ -13,7 +13,6 @@ def initialise_driver():
     chrome_options = ChromeOptions()
     chrome_options.add_argument('--headless=new')
     chrome_options.add_argument("--no-sandbox")
-    # The /dev/shm partition is too small in certain VM environments, causing Chrome to fail or crash
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
     chrome_options.add_argument("--disable-dev-tools")
@@ -40,9 +39,8 @@ def initialise_driver():
     return driver
 
 
-def lambda_handler(event, context):
-    logger.info("Start scraping")
+def lambda_handler(event, context):    
     driver = initialise_driver()
     driver.get("https://wbyte.dev")
-    page_source = driver.page_source
-    logger.info(f"Page source: {page_source}")
+    logger.info(f"Page title: ${driver.title}")
+    
