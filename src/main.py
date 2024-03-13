@@ -40,7 +40,7 @@ def initialise_driver():
     return driver
 
 
-def lambda_handler(event, context):    
+def lambda_handler(event, context):
     driver = initialise_driver()
     driver.get("https://wbyte.dev")
     logger.info(f"Page title: ${driver.title}")
@@ -56,6 +56,5 @@ def lambda_handler(event, context):
         },
         "body": json.dumps(body)
     }
-    
-    return response
 
+    return response

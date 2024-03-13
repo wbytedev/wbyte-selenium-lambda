@@ -15,12 +15,12 @@ const props = {
 };
 
 const fullName = `${props.applicationTag}-${props.name}`;
-const pascalCaseFullName = fullName.split('-')
+const pascalCaseFullName = fullName.split("-")
     .map((word, index) =>
         index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join('');
 
-new InfraStack(
+const infraStack = new InfraStack(
     app,
     pascalCaseFullName,
     {
@@ -29,3 +29,5 @@ new InfraStack(
         pascalCaseFullName: pascalCaseFullName
     }
 );
+
+cdk.Tags.of(infraStack).add("Customer", props.applicationTag);

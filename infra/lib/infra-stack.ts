@@ -4,7 +4,7 @@ import { DockerImageCode, DockerImageFunction } from 'aws-cdk-lib/aws-lambda';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
 
-export interface InfraStackProps extends StackProps {  
+export interface InfraStackProps extends StackProps {
   applicationTag: string;
   apiKey: string;
   fullName: string;
@@ -17,16 +17,21 @@ export class InfraStack extends Stack {
 
     const lambdaFunction = new DockerImageFunction(this, `${props.pascalCaseFullName}SeleniumLambda`, {
       code: DockerImageCode.fromImageAsset("../src"),
-      timeout: Duration.seconds(10),
+      timeout: Duration.seconds(40),
       functionName: `${props.fullName}-function`,
       memorySize: 512, // TODO: lambda power tuning
       logRetention: RetentionDays.ONE_WEEK
     });
 
+    Tags.of(lambdaFunction).add("Customer", props.applicationTag);
+
     const gateway = new LambdaRestApi(this, `${props.pascalCaseFullName}Gateway`, {
       handler: lambdaFunction,
       proxy: false
     });
+
+    Tags.of(gateway).add("Customer", props.applicationTag);
+
     const integration = new LambdaIntegration(lambdaFunction);
     gateway.root.addMethod("GET", integration, {
       apiKeyRequired: true
@@ -50,7 +55,5 @@ export class InfraStack extends Stack {
     usagePlan.addApiStage({
       stage: gateway.deploymentStage,
     });
-
-    // TODO: Apply tags to lambda, to gateway and ECR? If possible
   }
 }
