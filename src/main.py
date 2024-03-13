@@ -1,4 +1,5 @@
 import logging
+import json
 
 from tempfile import mkdtemp
 from selenium import webdriver
@@ -43,4 +44,18 @@ def lambda_handler(event, context):
     driver = initialise_driver()
     driver.get("https://wbyte.dev")
     logger.info(f"Page title: ${driver.title}")
+
+    body = {
+        "title": driver.title
+    }
+
+    response = {
+        "statusCode": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "body": json.dumps(body)
+    }
     
+    return response
+
