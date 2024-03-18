@@ -1,19 +1,15 @@
 #!/bin/bash
 set -e
 
-if [[ -d "src" ]]; then
-    echo "Nothing to bootstrap for now.."
-fi
-
 if [[ -d "infra" ]]; then
     cd infra
 
-    echo "Global install AWS CDK version ${CDK_VERSION}.."
+    echo "Install AWS CDK version ${CDK_VERSION}.."
 
     npm i -g aws-cdk@${CDK_VERSION}
     npm ci --include=dev
 
-    echo "Synthing infra.."
+    echo "Synthesize infra.."
 
     npm run cdk synth -- \
         --quiet \

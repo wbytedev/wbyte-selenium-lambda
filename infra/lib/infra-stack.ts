@@ -19,7 +19,7 @@ export class InfraStack extends Stack {
       code: DockerImageCode.fromImageAsset("../src"),
       timeout: Duration.seconds(40),
       functionName: `${props.fullName}-function`,
-      memorySize: 512, // TODO: lambda power tuning
+      memorySize: 512,
       logRetention: RetentionDays.ONE_WEEK
     });
 
