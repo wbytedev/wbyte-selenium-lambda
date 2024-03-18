@@ -17,7 +17,7 @@ Before getting started, ensure you have the following:
    git clone https://github.com/wbytedev/wbyte-selenium-lambda.git
    cd wbyte-selenium-lambda
 2. **Set up Environment Variables**:
-   Set AWS_ACCOUNT_ID and AWS_REGION in your GitHub repository secrets. These are required for assuming the role to deploy resources in your AWS account.
+   Set `AWS_ACCOUNT_ID` and `AWS_REGION` in your GitHub repository secrets. These are required for assuming the role to deploy resources in your AWS account.
 3. **Deploy the Infrastructure**:
    By pushing to the main branch the GitHub actions will be deploy the application, if and only if, all required environment varbiables have been set. 
 
